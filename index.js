@@ -1,6 +1,4 @@
 const express = require("express");
-const fetch = require("node-fetch");
-
 const app = express();
 
 app.get("/", async (req, res) => {
@@ -10,7 +8,7 @@ app.get("/", async (req, res) => {
   }
 
   try {
-    const response = await fetch(target);
+    const response = await fetch(target); // native fetch
     const html = await response.text();
     res.send(html);
   } catch (err) {
@@ -20,4 +18,3 @@ app.get("/", async (req, res) => {
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log("Proxy running on port " + port));
-// updated April 23 2026

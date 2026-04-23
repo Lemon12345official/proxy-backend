@@ -7,18 +7,27 @@ app.get("/", async (req, res) => {
     return res.send("No URL provided. Use ?url=https://example.com");
   }
 
-try {
-  const response = await fetch(target);
-  let html = await response.text();
+  try {
+    const response = await fetch(target);
+    let html = await response.text();
 
-  // Rewrite relative links and sources to go through your proxy
-  html = html.replace(/(href|src)="\/(?!\/)/g, `$1="${req.protocol}://${req.get("host")}/?url=${target}/`);
+    // Inject a <base> tag so relative paths resolve correctly
+    const baseTag = `<base href="${target}">`;
+    html = html.replace(/<head>/i, `<head>${baseTag}`);
 
-  res.send(html);
-} catch (err) {
-  res.status(500).send("Error fetching target: " + err.message);
-}
+    // Rewrite absolute URLs to route through proxy
+    html = html.replace(/(href|src)="https?:\/\/([^"]+)"/g, (match, attr, url) => {
+      return `${attr}="${req.protocol}://${req.get("host")}/?url=https://${url}"`;
+    });
 
+    // Rewrite relative links and sources to go through proxy
+    html = html.replace(/(href|src)="\/(?!\/)/g, (match, attr) => {
+      return `${attr}="${req.protocol}://${req.get("host")}/?url=${target}/`;
+    });
+
+    res.send(html);
+  } catch (err) {
+    res.status(500).send("Error fetching target: " + err.message);
   }
 });
 

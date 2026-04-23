@@ -1,0 +1,45 @@
+body {
+  margin: 0;
+  background: #0e0e10;
+  color: #fff;
+  font-family: "Segoe UI", sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  background: rgba(40, 40, 50, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 10px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#urlInput {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  outline: none;
+}
+
+#goBtn {
+  margin-left: 10px;
+  background: linear-gradient(135deg, #6a00ff, #9b00ff);
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+#proxyFrame {
+  flex: 1;
+  width: 100%;
+  border: none;
+}
